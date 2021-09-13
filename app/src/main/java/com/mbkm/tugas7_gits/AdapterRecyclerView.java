@@ -10,38 +10,50 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
 public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerView.ViewHolder> {
 
-    private String[] SubjectValues;
+    private ArrayList<Daftar> daftar;
     private Context context;
 
-    AdapterRecyclerView(Context context1, String[] SubjectValues1){
-        SubjectValues = SubjectValues1;
-        context = context1;
+    public AdapterRecyclerView(Context context, ArrayList<Daftar> daftar) {
+        this.context = context;
+        this.daftar = daftar;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
-        ViewHolder(View v){
-            super(v);
-            textView = v.findViewById(R.id.DaftarNama);
-        }
-    }
-
-    @NonNull
     @Override
-    public AdapterRecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
-        View view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+    public AdapterRecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.textView.setText(SubjectValues[position]);
+    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+        viewHolder.nama.setText(daftar.get(i).getNama());
+        Picasso.get().load(daftar.get(i).getUrl()).resize(100, 100)
+                .centerCrop()
+                .placeholder(R.drawable.loading)
+                .error(R.drawable.image2)
+                .into(viewHolder.gambar);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        TextView nama;
+        ImageView gambar;
+
+        public ViewHolder(View view) {
+            super(view);
+
+            nama = (TextView) view.findViewById(R.id.DaftarNama);
+            gambar = (ImageView) view.findViewById(R.id.imageView);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return SubjectValues.length;
+        return daftar.size();
     }
 }
