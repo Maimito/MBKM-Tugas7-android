@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    Context context;
     RecyclerView recyclerView;
     RecyclerView.Adapter recyclerViewAdapter;
     RecyclerView.LayoutManager recylerViewLayoutManager;
@@ -21,11 +20,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        context = getApplicationContext();
         recyclerView = findViewById(R.id.recyclerView);
-        recylerViewLayoutManager = new LinearLayoutManager(context);
+        recylerViewLayoutManager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(recylerViewLayoutManager);
-        recyclerViewAdapter = new AdapterRecyclerView(context, nama);
+        recyclerViewAdapter = new AdapterRecyclerView(MainActivity.this, nama);
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 }
